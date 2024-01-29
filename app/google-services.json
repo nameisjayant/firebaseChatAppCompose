@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "516813890892",
+    "project_id": "chat-app-65b0b",
+    "storage_bucket": "chat-app-65b0b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516813890892:android:abf82ce9564738fa81dbe9",
+        "android_client_info": {
+          "package_name": "com.nameisjayant.chatapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGv0h_kJ1aGat-pyNLJRUV-fV_ZDXSRvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
