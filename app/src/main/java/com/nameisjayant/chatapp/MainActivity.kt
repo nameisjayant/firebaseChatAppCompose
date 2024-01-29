@@ -3,6 +3,7 @@ package com.nameisjayant.chatapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.nameisjayant.chatapp.feature.register.RegisterScreen
 import com.nameisjayant.chatapp.ui.theme.GmrTheme
 
 class MainActivity : ComponentActivity() {
@@ -10,7 +11,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             GmrTheme {
-
+                RegisterScreen()
             }
         }
     }
