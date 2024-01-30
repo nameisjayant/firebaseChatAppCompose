@@ -30,9 +30,9 @@ fun TextFieldComponent(
     keyboardOptions: KeyboardOptions = KeyboardOptions(),
     enable: Boolean = true,
     maxLine: Int = 1,
-    style: TextStyle = MaterialTheme.typography.titleLarge.copy(
+    style: TextStyle = MaterialTheme.typography.titleMedium.copy(
         color = Color.Black,
-        fontWeight = FontWeight.W700
+        fontWeight = FontWeight.W500
     ),
     colors: TextFieldColors = TextFieldDefaults.colors(
         focusedContainerColor = Color.Transparent,

@@ -1,6 +1,6 @@
 [versions]
 agp = "8.2.2"
-kotlin = "1.9.21"
+kotlin = "1.9.22"
 core-ktx = "1.12.0"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
@@ -17,6 +17,7 @@ google-service = "4.3.5"
 coroutines = "1.7.3"
 compose-runtime-lifecycle = "2.7.0"
 kspVersion = "1.9.10-1.0.13"
+material3 = "1.2.0-rc01"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -32,7 +33,7 @@ ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-material3 = { group = "androidx.compose.material3", name = "material3" }
+material3 = { group = "androidx.compose.material3", name = "material3",version.ref = "material3" }
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation-compose" }
 extended-icons-compose = { group = "androidx.compose.material", name = "material-icons-extended" }
 preference-datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "preference-datastore" }
