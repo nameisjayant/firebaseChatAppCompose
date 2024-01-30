@@ -65,7 +65,6 @@ class AppRepository @Inject constructor(
     suspend fun addUserDetail(data: AuthModel, id: String): Flow<ResultState<String>> =
         callbackFlow {
             trySend(ResultState.Loading)
-
             db.child(USER_TABLE).child(id)
                 .setValue(
                     data
@@ -80,5 +79,10 @@ class AppRepository @Inject constructor(
                 close()
             }
         }
+
+    suspend fun registerWithGoogle(data: AuthModel): Flow<ResultState<AuthModel>> = callbackFlow {
+        trySend(ResultState.Loading)
+
+    }
 
 }

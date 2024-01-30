@@ -18,6 +18,7 @@ coroutines = "1.7.3"
 compose-runtime-lifecycle = "2.7.0"
 kspVersion = "1.9.10-1.0.13"
 material3 = "1.2.0-rc01"
+play-service-auth = "20.7.0"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -42,6 +43,7 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagge
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 gms-google-service = { group = "com.google.gms", name = "google-services", version.ref = "google-service" }
+play-service-auth = {group = "com.google.android.gms" , name = "play-services-auth" , version.ref = "play-service-auth"}
 coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutine-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }

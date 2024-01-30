@@ -8,10 +8,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,11 +22,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nameisjayant.chatapp.LocalNavigator
 import com.nameisjayant.chatapp.R
 import com.nameisjayant.chatapp.components.ButtonComponent
@@ -34,16 +40,47 @@ import com.nameisjayant.chatapp.components.IconComponent
 import com.nameisjayant.chatapp.components.SpacerHeight
 import com.nameisjayant.chatapp.components.SpacerWidth
 import com.nameisjayant.chatapp.components.TextFieldComponent
+import com.nameisjayant.chatapp.data.model.AuthModel
 import com.nameisjayant.chatapp.feature.navigation.AppRoutes
+import com.nameisjayant.chatapp.feature.register.ui.viewmodel.AuthEvent
+import com.nameisjayant.chatapp.feature.register.ui.viewmodel.AuthViewModel
+import com.nameisjayant.chatapp.utils.PreferenceStore
+import com.nameisjayant.chatapp.utils.ResultState
+import com.nameisjayant.chatapp.utils.SOMETHING_WENT_WRONG
+import com.nameisjayant.chatapp.utils.getActivity
 import com.nameisjayant.chatapp.utils.navigateToWithPopping
+import com.nameisjayant.chatapp.utils.showMsg
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    viewModel: AuthViewModel = hiltViewModel()
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordShow by remember { mutableStateOf(false) }
     val navHostController = LocalNavigator.current
+    val emailValidation by viewModel.emailValidation.collectAsStateWithLifecycle()
+    val passwordValidation by viewModel.passwordValidation.collectAsStateWithLifecycle()
+    var isLoading by remember { mutableStateOf(false) }
+    val context = LocalContext.current.getActivity()!!
+    val isCompleted by remember {
+        derivedStateOf {
+            email.trim().isNotEmpty() &&
+                    password.trim().isNotEmpty() &&
+                    emailValidation.isEmpty() &&
+                    passwordValidation.isEmpty()
+        }
+    }
+
+    LaunchedEffect(key1 = email) {
+        viewModel.checkEmailValidation(email.trim())
+    }
+    LaunchedEffect(key1 = password) {
+        viewModel.checkPasswordValidation(password.trim())
+    }
+
 
     LazyColumn(
         modifier = Modifier
@@ -69,6 +106,15 @@ fun LoginScreen() {
                     keyboardType = KeyboardType.Email
                 )
             )
+            if (emailValidation.isNotEmpty() && email.isNotEmpty()) {
+                SpacerHeight()
+                Text(
+                    text = emailValidation,
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        color = Color.Red
+                    ),
+                )
+            }
             SpacerHeight(20.dp)
             TextFieldComponent(
                 value = password,
@@ -88,17 +134,37 @@ fun LoginScreen() {
                     keyboardType = KeyboardType.Password
                 )
             )
+            if (passwordValidation.isNotEmpty() && password.isNotEmpty()) {
+                SpacerHeight()
+                Text(
+                    text = passwordValidation,
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        color = Color.Red
+                    ),
+                )
+            }
             SpacerHeight(24.dp)
             ButtonComponent(content = {
-                Text(
-                    text = stringResource(id = R.string.login),
-                    style = LocalTextStyle.current.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
+                if (isLoading)
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(26.dp))
+                else
+                    Text(
+                        text = stringResource(id = R.string.login),
+                        style = LocalTextStyle.current.copy(
+                            fontWeight = FontWeight.SemiBold,
+                            color = if (isCompleted) Color.White else Color.Gray
+                        )
                     )
-                )
-            }) {
-
+            }, background = if (isCompleted) Color.Black else Color.LightGray) {
+                if (isCompleted)
+                    viewModel.onEvent(
+                        AuthEvent.LoginWithEmailAndPasswordEvent(
+                            AuthModel(
+                                email = email,
+                                password = password
+                            )
+                        )
+                    )
             }
             SpacerHeight(40.dp)
             Row {
@@ -142,6 +208,25 @@ fun LoginScreen() {
                 }
             )
         }
+    }
 
+    LaunchedEffect(key1 = Unit) {
+        viewModel.loginEmailPasswordEventFlow.collectLatest {
+            isLoading = when (it) {
+                is ResultState.Success -> {
+                    viewModel.setPref(PreferenceStore.index, "1")
+                    navHostController.navigate(AppRoutes.Main.route)
+                    false
+                }
+
+                is ResultState.Failure -> {
+                    context.showMsg(it.msg.message ?: SOMETHING_WENT_WRONG)
+                    false
+                }
+
+                ResultState.Loading -> true
+
+            }
+        }
     }
 }

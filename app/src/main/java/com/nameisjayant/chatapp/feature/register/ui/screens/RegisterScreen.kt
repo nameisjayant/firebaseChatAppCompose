@@ -1,5 +1,6 @@
 package com.nameisjayant.chatapp.feature.register.ui.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -253,7 +254,8 @@ fun RegisterScreen(
         viewModel.addUserDetailEventFlow.collectLatest {
             isLoading = when (it) {
                 is ResultState.Success -> {
-                    context.showMsg("Account created!")
+                    viewModel.setPref(PreferenceStore.index,"1")
+                    navHostController.navigate(AppRoutes.Main.route)
                     false
                 }
 
@@ -266,5 +268,9 @@ fun RegisterScreen(
 
             }
         }
+    }
+
+    BackHandler {
+        context.finish()
     }
 }

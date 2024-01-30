@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.nameisjayant.chatapp.LocalNavigator
+import com.nameisjayant.chatapp.feature.main.ui.screens.MainScreen
 import com.nameisjayant.chatapp.feature.register.ui.screens.LoginScreen
 import com.nameisjayant.chatapp.feature.register.ui.screens.RegisterScreen
 import com.nameisjayant.chatapp.feature.register.ui.screens.SplashScreen
@@ -19,7 +20,7 @@ fun AppNavigation(
         LocalNavigator provides navHostController
     ) {
 
-        NavHost(navController = navHostController, startDestination = AppRoutes.Login.route) {
+        NavHost(navController = navHostController, startDestination = AppRoutes.Splash.route) {
             composable(AppRoutes.Login.route) {
                 LoginScreen()
             }
@@ -27,7 +28,7 @@ fun AppNavigation(
                 RegisterScreen()
             }
             composable(AppRoutes.Main.route) {
-
+                MainScreen()
             }
             composable(AppRoutes.Splash.route){
                 SplashScreen()

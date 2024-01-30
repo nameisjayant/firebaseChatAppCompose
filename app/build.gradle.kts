@@ -85,4 +85,5 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.realtime)
     implementation(libs.compose.runtime.lifecycle)
+    implementation(libs.play.service.auth)
 }
