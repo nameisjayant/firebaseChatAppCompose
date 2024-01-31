@@ -6,4 +6,5 @@ sealed class AppRoutes(val route: String) {
     data object Register : AppRoutes("/register")
     data object Login : AppRoutes("/login")
     data object Main : AppRoutes("/main")
+    data object Chat : AppRoutes("/chat")
 }

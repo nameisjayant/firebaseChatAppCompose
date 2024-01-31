@@ -2,11 +2,14 @@ package com.nameisjayant.chatapp.feature.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.nameisjayant.chatapp.LocalNavigator
+import com.nameisjayant.chatapp.feature.main.ui.screens.ChatScreen
 import com.nameisjayant.chatapp.feature.main.ui.screens.MainScreen
+import com.nameisjayant.chatapp.feature.main.ui.viewmodel.MainViewModel
 import com.nameisjayant.chatapp.feature.register.ui.screens.LoginScreen
 import com.nameisjayant.chatapp.feature.register.ui.screens.RegisterScreen
 import com.nameisjayant.chatapp.feature.register.ui.screens.SplashScreen
@@ -16,6 +19,9 @@ import com.nameisjayant.chatapp.feature.register.ui.screens.SplashScreen
 fun AppNavigation(
     navHostController: NavHostController
 ) {
+
+    val mainViewModel:MainViewModel = viewModel()
+
     CompositionLocalProvider(
         LocalNavigator provides navHostController
     ) {
@@ -28,10 +34,13 @@ fun AppNavigation(
                 RegisterScreen()
             }
             composable(AppRoutes.Main.route) {
-                MainScreen()
+                MainScreen(mainViewModel)
             }
             composable(AppRoutes.Splash.route){
                 SplashScreen()
+            }
+            composable(AppRoutes.Chat.route){
+                ChatScreen(mainViewModel)
             }
         }
     }

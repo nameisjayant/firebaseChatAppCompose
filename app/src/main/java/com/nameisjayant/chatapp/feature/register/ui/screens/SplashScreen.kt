@@ -2,12 +2,14 @@ package com.nameisjayant.chatapp.feature.register.ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nameisjayant.chatapp.LocalNavigator
@@ -37,7 +39,11 @@ fun SplashScreen(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = "Chat App")
+        Text(
+            text = "Chat App", style = MaterialTheme.typography.headlineLarge.copy(
+                fontWeight = FontWeight.W600
+            )
+        )
     }
 
 }
